@@ -8,6 +8,9 @@ export default function Navbar_1(props) {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
+        <Navbar.Brand href="/" >
+          <img className = "img-responsive" src="/src/assets/Travelers-Emblem.jpg"></img>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav

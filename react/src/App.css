@@ -1,42 +1,74 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+Navbar.css
+.header {
+ position: fixed;
+ width: 100%;
+ top: 0;
+ left: 0;
+ background-color: rgb(51, 112, 226);
+ z-index: var(--z-fixed);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.nav {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ position: relative;
+ height: var(--header-height);
+ margin: 1rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.img-responsive {
+    height: auto;
+    width: auto;
+    max-height: 72px;
+    max-width: 250px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.nav__logo {
+ color: var(--first-color);
+ transition: color 0.4s;
+ font-size: var(--h2-font-size);
+ font-family: var(--second-font);
 }
 
-.card {
-  padding: 2em;
+.nav__toggle,
+.nav__close {
+ font-size: 1.5rem;
+ color: var(--title-color);
+ cursor: pointer;
 }
 
-.read-the-docs {
-  color: #888;
+.nav__cta {
+ background-color: var(--first-color);
+ color: var(--title-color);
+ border: none;
+ border-radius: 4px;
+ cursor: pointer;
+ transition: background-color 0.3s ease;
+ padding: 0.75rem 1.5rem;
+}
+.nav__list {
+ display: flex;
+ flex-direction: column;
+ row-gap: 2.5rem;
+}
+
+.nav__link {
+ color: var(--title-color);
+ font-weight: var(--font-semi-bold);
+ transition: color 0.4s;
+}
+
+.nav__link:hover {
+ color: var(--first-color);
+}
+
+.nav__close {
+ position: absolute;
+ top: 1rem;
+ right: 1.5rem;
+}
+
+.show-menu {
+ right: 0;
 }
