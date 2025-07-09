@@ -1,0 +1,1 @@
+Step 1. Within the react folder: npm install 
