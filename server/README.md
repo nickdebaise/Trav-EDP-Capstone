@@ -1,25 +1,75 @@
-# Server Documentation
+# Server Docs
 
 ## Authentication
 
+Authentication is session-based and handled via cookies. You must log in to receive a session cookie, which must then be sent with all subsequent requests to protected routes.
+
+### `POST /register`
+Registers a new employee account.
+
+*   **Request Body:**
+    ```json
+    {
+      "name": "Jane Doe",
+      "password": "strongpassword123",
+      "phone": "555-123-4567",
+      "location": "New York, NY"
+    }
+    ```
+*   **Response:** On success, returns a `201` status, a confirmation message, and automatically logs the user in.
+
+### `POST /auth/login`
+Logs in an existing user and creates a session.
+
+*   **Request Body:**
+    ```json
+    {
+      "name": "Jane Doe",
+      "password": "strongpassword123"
+    }
+    ```
+*   **Response:** On success, returns a `200` status and sets a session cookie.
+
+### `POST /auth/logout`
+Logs out the current user and destroys the session.
+
+---
+
 ## Employee Routes
 
-### POST /employees
+All routes under `/employees` are protected and require the user to be authenticated.
 
-Create a new employee.
+### `PUT /employees/:id`
+Updates an existing employee's details.
 
-In the request body, supply (in JSON), a name, role (Employee, Manager), phone, salary, location to create a new employee
-Optionally, supply a managerId with an ID which points to another manager/employee to set this employee to be a subordinate of the supplied ID
+*   **URL Parameter:** `:id` - The MongoDB ObjectId of the employee to update.
+*   **Authorization:** The authenticated user must be either:
+    1.  The employee they are trying to update (updating their own profile).
+    2.  A manager of that employee
+*   **Request Body:** Any combination of the fields below. All are optional.
+    ```json
+    {
+        "name": "Johnathan Smith",
+        "phone": "860 910 9087",
+        "location": "hartford",
+        "salary": 65000,
+        "managerId": "60d5ec49f72e1c3a88d1f2b4"
+    }
+    ```
 
-### PUT /employees/:id
+### `POST /employees/search`
+Searches for employees based on filter criteria.
 
-Update an existing employee (i.e. to set their manager)
-Same as POST /employees
+*   **Authorization:** Requires authentication. The API automatically uses the authenticated user's ID from their session to determine permissions.
+*   **Request Body:** All fields are optional filters.
+    ```json
+    {
+        "name": "j",
+        "location": "new york"
+    }
+    ```
+*   **Response:** Returns an array of employee objects. The `salary` field will only be included for employees who are either:
+    1.  The authenticated user themselves.
+    2.  A subordinate of the authenticated user
 
-### Post /employees/search
-
-Search for all employees.
-
-In the request body, supply (in JSON), a name, phone, location to filter for the given people that meet this criteria
-
-In the request body, supply a userId which is the ID of the given user in order to show salaries for people below them.
+For all other employees, the `salary` field is omitted for privacy.

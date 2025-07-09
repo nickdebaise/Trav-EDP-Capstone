@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
+const passportLocalMongoose = require('passport-local-mongoose');
+
 
 const employeeSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Employee name is required.'],
-        trim: true
+        trim: true,
+        unique: true
     },
     phone: {
         type: String,
@@ -31,6 +34,8 @@ const employeeSchema = new mongoose.Schema({
         default: null
     }
 });
+
+employeeSchema.plugin(passportLocalMongoose, { usernameField: 'name' });
 
 
 employeeSchema.statics.updateRoleBasedOnSubordinates = async function (employeeId) {
