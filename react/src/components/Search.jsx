@@ -34,7 +34,7 @@ const Search = (props) => {
             <input className="form-control me-2" type="search"
                 placeholder="Search" aria-label="Search"
                 value={searchTerm} onChange={handleChange} />
-            <button className="btn btn-outline-success" type="submit">Search</button>
+            <button className="btn btn-outline-success" type="submit">testing search button</button>
         </form>
     );
 };
