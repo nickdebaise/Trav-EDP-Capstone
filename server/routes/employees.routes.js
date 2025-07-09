@@ -3,12 +3,11 @@ const Employee = require("../models/employee");
 
 const router = express.Router();
 
+// Add a new employee
 router.post('/', async (req, res) => {
     try {
         const newEmployee = new Employee(req.body);
-
         const savedEmployee = await newEmployee.save();
-
         res.status(201).json(savedEmployee);
     } catch (err) {
         if (err.name === 'ValidationError') {
@@ -18,12 +17,11 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+router.post('/search', async (req, res) => {
     try {
-        const { name, phone, location } = req.query;
+        const { name, phone, location, userId } = req.body;
 
         const filter = {};
-
         if (name) {
             filter.name = { $regex: name, $options: 'i' };
         }
@@ -34,21 +32,51 @@ router.get('/', async (req, res) => {
             filter.location = { $regex: location, $options: 'i' };
         }
 
-        const employees = await Employee.find(filter).populate('managerId', 'name role');
+        const employees = await Employee.find(filter)
+            .populate('managerId', 'name role')
+            .lean();
 
+        const processedEmployees = employees.map(employee => {
+            const isManager = userId
+                && employee.managerId
+                && employee.managerId._id.toString() === userId;
 
-        res.status(200).json(employees);
+            if (isManager) {
+                return employee;
+            } else {
+                delete employee.salary;
+                return employee;
+            }
+        });
+
+        res.status(200).json(processedEmployees);
     } catch (err) {
         res.status(500).json({ message: 'Server error while fetching employees.' });
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.post('/employee', async (req, res) => {
     try {
-        const employee = await Employee.findById(req.params.id).populate('managerId', 'name role');
+        const { id, userId } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Employee ID must be provided in the request body.' });
+        }
+
+        const employee = await Employee.findById(id)
+            .populate('managerId', 'name role')
+            .lean();
 
         if (!employee) {
             return res.status(404).json({ message: 'Employee not found.' });
+        }
+
+        const isManager = userId
+            && employee.managerId
+            && employee.managerId._id.toString() === userId;
+
+        if (!isManager) {
+            delete employee.salary;
         }
 
         res.status(200).json(employee);
