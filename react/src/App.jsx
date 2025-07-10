@@ -6,6 +6,7 @@ import Register from './components/Register'
 import Navbar from './components/Navbar';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import EmployeeDetail from './components/EmployeeDetail.jsx';
+import Prediction from './components/Prediction.jsx';
 
 import {
   BrowserRouter as Router,
@@ -14,6 +15,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./useAuth.jsx"
 import Login from './components/Login';
+
 
 export default function App() {
 
@@ -35,8 +37,11 @@ export default function App() {
           <Route path="/register" element={
             <Register />
           } />
+          <Route path="/prediction" element={
+            <Prediction />
+          } />
 
-          
+
 
         </Routes>
       </AuthProvider>

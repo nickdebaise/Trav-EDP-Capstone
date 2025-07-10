@@ -4,6 +4,7 @@ import './Employees.css'; // Import external CSS for styling
 import { useAuth } from '../useAuth';
 import CoinFallBackground from './CoinFallBackground';
 
+
 const Employees = () => {
     const [name, setName] = useState("");
     const navigate = useNavigate();
@@ -157,6 +158,7 @@ const Employees = () => {
                                     onClick={() => HandleViewEmployeeDetails(employee._id)}>
                                         See more details
                                     </button>
+                                    
                                 </div>
                             ))}
                         </div>
