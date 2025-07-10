@@ -12,22 +12,11 @@ jobs = {
     'Project Manager': (60000, 110000),
     'UX Designer': (55000, 95000),
     'EDP': (75000, 90000),
-    'Cybersecurity Analyst': (70000, 100000),
-    'Cloud Engineer': (90000, 120000),
-    'AI/ML Engineer':(100000, 130000),
-    'Software Developer': (48000,166000),
-    'NetWork Engineer': (55000,114000),
-    'Database Administrator': (70000, 90000),
-    'User Experience Designer':(70000,90000),
-    'IT Project Manager': (90000,120000),
-    'Chief Information Officer': (221500,  302750),
-    'Chief Information Security Officer': (191500, 278250),
-    'Chief Technology Officer': (188000,  275750),
-    'Vice President of Information Technology': (160250, 223250),
-    'IT Director': (133500, 194250),
-    'Human Resources': (50000, 130000),
-    'IT Technician': (50000, 70000)
 }
+
+locations = {'New York', 'Hartford', "Saint Paul"}
+
+    
 
 
 def generate_employee_data(num_records):
@@ -38,7 +27,10 @@ def generate_employee_data(num_records):
         phone_number = bob.phone_number()
         job_titles = list(jobs.keys())
         job_title = rand.choice(job_titles)
-        work_location = bob.city()  # Use city as a simple location representation
+
+        work_locations = list(locations)
+        work_location = rand.choice(work_locations)  
+
         salary_range = jobs[job_title]  
         random_salary = rand.randint(salary_range[0], salary_range[1])
 
@@ -64,7 +56,7 @@ def save_to_csv(data, filename="employee_data.csv"):
 def main():
     num_records = 1000  # Minimum number of records required
     employee_data = generate_employee_data(num_records)
-    # print(employee_data)
+    print(employee_data)
 
     
     save_to_csv(employee_data)
