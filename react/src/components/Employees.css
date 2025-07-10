@@ -1,0 +1,80 @@
+/* Container for all employee cards */
+.employee-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Styling for the search bar */
+.search-bar {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-input {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+/* Loading text */
+.loading {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Styling for employee cards container */
+.employee-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+/* Individual employee card styling */
+.employee-card {
+    width: calc(33% - 20px);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.employee-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.employee-card h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.employee-card p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+}
+
+.employee-card strong {
+    font-weight: bold;
+}
