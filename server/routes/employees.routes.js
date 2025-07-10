@@ -142,13 +142,13 @@ router.post('/search', async (req, res) => {
 
         const authenticatedUser = await Employee.findOne({ _id: authenticatedUserId });
 
-        const { name, phone, location } = req.body;
+        const { name, phone, location, role } = req.body;
 
         const filter = {};
         if (name) filter.name = { $regex: name, $options: 'i' };
         if (phone) filter.phone = { $regex: phone };
         if (location) filter.location = { $regex: location, $options: 'i' };
-
+        if (role) filter.role = { $regex: role, $options: 'i' }
         const employees = await Employee.find(filter)
             .populate('managerId', 'name role')
             .lean();
