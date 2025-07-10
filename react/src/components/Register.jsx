@@ -17,7 +17,6 @@ export default function Register() {
     const handleRegister = async (event) => {
         event.preventDefault();
 
-        // Send the registration request
         if (!username || !password || !phoneNumber || !location || !salary || !jobTitle) {
             alert("Please fill out all fields");
             return;

@@ -3,6 +3,68 @@ const Employee = require("../models/employee");
 
 const router = express.Router();
 
+/*
+
+{
+name: ...
+phone ...
+manager ...
+subordinates ...
+}
+
+*/
+
+router.get("/:id", async (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Unauthorized: You must be logged in." });
+    }
+
+    try {
+        const authenticatedUserId = req.user._id.toString();
+        const authenticatedUser = await Employee.findOne({ _id: authenticatedUserId });
+
+        const employeeId = req.params.id;
+
+        const employee = await Employee.findById(employeeId).populate('managerId')
+
+        console.log(employee)
+
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found.' });
+        }
+
+        const subordinates = await Employee.find({
+            managerId: employeeId
+        }).lean();
+
+        const processedEmployees = subordinates.map(employee => {
+            const isManager = employee.managerId && employee.managerId._id.toString() === authenticatedUserId;
+            const isSelf = employee._id.toString() === authenticatedUserId;
+            const isHR = authenticatedUser.role === "HR"
+
+            if (isManager || isSelf || isHR) {
+                return employee;
+            } else {
+                delete employee.salary;
+                return employee;
+            }
+        });
+
+        res.status(200).json({
+            name: employee.name,
+            phone: employee.phone,
+            location: employee.location,
+            role: employee.role,
+            salary: employee._id === authenticatedUserId ? employee.salary : "Not Viewable",
+            managerId: employee.ManagerId,
+            subordinates: processedEmployees
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error while fetching employees.' });
+    }
+})
+
 router.put('/:id', async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).json({ message: 'Unauthorized: You must be logged in.' });
