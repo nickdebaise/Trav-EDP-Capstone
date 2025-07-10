@@ -14,9 +14,7 @@ export default function TravNavbar() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand href="/" >
-          <img className="img-responsive" src="/src/assets/Travelers-Emblem.jpg"></img>
-        </Navbar.Brand>
+
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -24,7 +22,7 @@ export default function TravNavbar() {
             style={{ maxHeight: '100px', maxWidth: '100%' }}
             navbarScroll
           >
-            <Nav.Link as={Link} to="/employees"  className="btn btn-outline-primary">Search Employees</Nav.Link>
+            <Nav.Link as={Link} to="/employees" className="btn btn-outline-primary">Employees</Nav.Link>
           </Nav>
 
           <Nav className="ms-auto">
@@ -39,11 +37,14 @@ export default function TravNavbar() {
               </>
             ) : (
               <>
-                <Nav.Link as={Link} to="/" className="btn btn-outline-primary">Login</Nav.Link>
-                <Nav.Link as={Link} to="/register" className="btn btn-outline-primary">Register</Nav.Link>
+                <Nav.Link as={Link} to="/" className="btn btn-outline-primary">Sign In</Nav.Link>
+                <Nav.Link as={Link} to="/register" className="btn btn-outline-primary">Sign Up</Nav.Link>
               </>
             )}
           </Nav>
+          <Navbar.Brand href="/" >
+            <img className="img-responsive" src="/src/assets/Travelers-Emblem.jpg"></img>
+          </Navbar.Brand>
         </Navbar.Collapse>
       </Container>
     </Navbar>
