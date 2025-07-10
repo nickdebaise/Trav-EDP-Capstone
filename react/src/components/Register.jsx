@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../useAuth';
 
-export default function Register(){
+export default function Register() {
+
+    const { login } = useAuth();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -18,28 +21,34 @@ export default function Register(){
             method: "POST",
             body: JSON.stringify({
                 "name": username,
-                "phone_number": phoneNumber,
-                "location" : location,                
+                "phone": phoneNumber,
+                "location": location,
                 "salary": salary,
-                "password" : password
+                "password": password
             }),
             headers: {
                 "Content-Type": "application/json",
             },
         })
-        .then((response) => response.json())
-        .then((data) => {
-            // TODO: Handle the response data
-            if(data){
-                navigate('/employees');
-            }
-    })        
-        .catch((error) => {
-            // Handle any errors
-            console.error(error);
-        });
+            .then((response) => response.json())
+            .then((data) => {
+                // TODO: Handle the response data
+                if (data) {
+                    if (data.user) {
+                        login(data.user);
+                    }
+
+                    alert("Registered Successfully")
+                    navigate('/employees');
+                }
+            })
+            .catch((error) => {
+                // Handle any errors
+                console.error(error);
+                alert(error.message)
+            });
         console.log("Registration sent successfully");
-        
+
     };
 
     return (

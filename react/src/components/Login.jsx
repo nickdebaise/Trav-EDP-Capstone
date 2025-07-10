@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../useAuth';
 
 export default function LoginForm() {
+    const { login } = useAuth();
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -17,21 +20,22 @@ export default function LoginForm() {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include"
         })
-        .then((response) => response.json())
-        .then((data) => {
-            // TODO: Handle the response data
-            if(data.ok){
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.user) {
+                    login(data.user)
+                }
                 alert(data.message);
-                navigate('/employee');
-            }
-        })
-        .catch((error) => {
-            // Handle any errors
-            console.error(error);
-        });
+                navigate('/employees');
+            })
+            .catch((error) => {
+                // Handle any errors
+                console.error(error);
+            });
         console.log("Login sent successfully");
-        
+
     };
 
     return (
@@ -62,7 +66,7 @@ export default function LoginForm() {
                 <button type="submit" className="btn btn-primary">Login</button>
             </form>
             <span>
-                Don't have an account?&nbsp; 
+                Don't have an account?&nbsp;
                 <Link to="/register">Register!</Link>
             </span>
         </div>
