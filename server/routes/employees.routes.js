@@ -3,38 +3,13 @@ const Employee = require("../models/employee");
 
 const router = express.Router();
 
-router.put("/:id/hr", async (req, res) => {
-    if (!req.isAuthenticated()) {
-        return res.status(401).json({ message: 'Unauthorized: You must be logged in.' });
-    }
-
-    try {
-        const employeeId = req.params.id;
-
-        const employee = await Employee.findById(employeeId);
-        if (!employee) {
-            return res.status(404).json({ message: 'Employee not found.' });
-        }
-
-        employee.role = "HR";
-
-        const updatedEmployee = await employee.save();
-        res.status(200).json(updatedEmployee);
-    } catch (e) {
-        if (err.name === 'ValidationError') {
-            return res.status(400).json({ message: err.message });
-        }
-        res.status(500).json({ message: 'Server error while updating employee.' });
-    }
-})
-
 router.put('/:id', async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).json({ message: 'Unauthorized: You must be logged in.' });
     }
 
     try {
-        const { name, phone, location, salary, managerId } = req.body;
+        const { name, phone, location, salary, role, managerId } = req.body;
         const employeeId = req.params.id;
 
         const employee = await Employee.findById(employeeId);
@@ -42,7 +17,7 @@ router.put('/:id', async (req, res) => {
             return res.status(404).json({ message: 'Employee not found.' });
         }
 
-        if (req.user.role !== "HR" || (req.user.role !== 'Manager' && req.user._id.toString() !== employeeId)) {
+        if (req.user.role !== "HR" || req.user._id.toString() !== employeeId) {
             return res.status(403).json({ message: 'Forbidden: You do not have permission to update this employee.' });
         }
 
@@ -51,6 +26,7 @@ router.put('/:id', async (req, res) => {
         employee.location = location ?? employee.location;
         employee.salary = salary ?? employee.salary;
         employee.managerId = managerId ?? employee.managerId;
+        employee.role = role ?? employee.role;
 
         const updatedEmployee = await employee.save();
         res.status(200).json(updatedEmployee);
