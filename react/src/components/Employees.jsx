@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Employees.css'; // Import external CSS for styling
+import { useAuth } from '../useAuth';
 
 const Employees = () => {
     const [name, setName] = useState("");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [employees, setEmployees] = useState([]);
+    const { login, user } = useAuth()
 
     useEffect(() => {
         fetchEmployees();
@@ -27,6 +29,7 @@ const Employees = () => {
             .then((response) => {
                 if (response.status === 401) {
                     navigate("/");
+                    login(null)
                 }
 
                 return response.json();
@@ -46,6 +49,53 @@ const Employees = () => {
     const HandleViewEmployeeDetails = (id) => {
         navigate(`/employee/${id}`);
     };
+    const makeManager = useCallback((newManagerId) => { // 'id' renamed for clarity
+        setLoading(true);
+        fetch(`${import.meta.env.VITE_API_URL}/employees/${user._id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                "managerId": newManagerId
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include"
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    navigate("/");
+                    login(null);
+                    return;
+                }
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'Failed to update manager.');
+                    });
+                }
+                return response.json();
+            })
+            .then(updatedUserFromServer => {
+                if (!updatedUserFromServer) return;
+
+                alert("Manager has been updated successfully!");
+
+                const newManagerData = updatedUserFromServer.managerId?._id;
+
+                login({
+                    ...user,
+                    managerId: newManagerData
+                });
+
+                fetchEmployees();
+            })
+            .catch(err => {
+                console.error(err);
+                alert(`Error: ${err.message}`);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, [user, login, navigate, fetchEmployees]);
 
     return (
         <div className="employee-container">
@@ -79,7 +129,14 @@ const Employees = () => {
                         <div className="employee-cards">
                             {employees.map(employee => (
                                 <div key={employee._id} className="employee-card">
-                                    <h3>{employee.name}</h3>
+                                    <div>
+                                        <h3>{employee.name}</h3>
+                                        <button className="btn btn-primary" onClick={() => makeManager(employee._id)}
+                                            disabled={
+                                                employee._id === user._id
+                                                || (!!user.managerId && employee._id === user.managerId)
+                                            }>Make Manager</button>
+                                    </div>
                                     <p><strong>Phone:</strong> {employee.phone}</p>
                                     <p><strong>Role:</strong> {employee.role}</p>
                                     <p><strong>Location:</strong> {employee.location}</p>
