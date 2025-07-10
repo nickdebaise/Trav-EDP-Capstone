@@ -3,6 +3,30 @@ const Employee = require("../models/employee");
 
 const router = express.Router();
 
+router.put("/:id/hr", async (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: 'Unauthorized: You must be logged in.' });
+    }
+
+    try {
+        const employeeId = req.params.id;
+
+        const employee = await Employee.findById(employeeId);
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found.' });
+        }
+
+        employee.role = "HR";
+
+        const updatedEmployee = await employee.save();
+        res.status(200).json(updatedEmployee);
+    } catch (e) {
+        if (err.name === 'ValidationError') {
+            return res.status(400).json({ message: err.message });
+        }
+        res.status(500).json({ message: 'Server error while updating employee.' });
+    }
+})
 
 router.put('/:id', async (req, res) => {
     if (!req.isAuthenticated()) {
@@ -18,7 +42,7 @@ router.put('/:id', async (req, res) => {
             return res.status(404).json({ message: 'Employee not found.' });
         }
 
-        if (req.user.role !== 'Manager' && req.user._id.toString() !== employeeId) {
+        if (req.user.role !== "HR" || (req.user.role !== 'Manager' && req.user._id.toString() !== employeeId)) {
             return res.status(403).json({ message: 'Forbidden: You do not have permission to update this employee.' });
         }
 
@@ -47,6 +71,9 @@ router.post('/search', async (req, res) => {
     try {
         const authenticatedUserId = req.user._id.toString();
 
+
+        const authenticatedUser = await Employee.findOne({ _id: authenticatedUserId });
+
         const { name, phone, location } = req.body;
 
         const filter = {};
@@ -61,8 +88,9 @@ router.post('/search', async (req, res) => {
         const processedEmployees = employees.map(employee => {
             const isManager = employee.managerId && employee.managerId._id.toString() === authenticatedUserId;
             const isSelf = employee._id.toString() === authenticatedUserId;
+            const isHR = authenticatedUser.role === "HR"
 
-            if (isManager || isSelf) {
+            if (isManager || isSelf || isHR) {
                 return employee;
             } else {
                 delete employee.salary;
