@@ -128,7 +128,7 @@ const Employees = () => {
                                 <div key={employee._id} className="employee-card">
                                     <div>
                                         <h3>{employee.name}</h3>
-                                        <button onClick={() => makeManager(employee._id)}
+                                        <button className="btn btn-primary" onClick={() => makeManager(employee._id)}
                                             disabled={
                                                 employee._id === user._id
                                                 || (!!user.managerId && employee._id === user.managerId)
@@ -139,9 +139,7 @@ const Employees = () => {
                                     <p><strong>Location:</strong> {employee.location}</p>
                                     <p><strong>Salary:</strong> {employee?.salary ?? "Not Viewable"}</p>
                                     <p><strong>Manager:</strong> {employee.managerId?.['name'] ?? "None"}</p>
-                                    <button className="btn btn-primary">
-                                        Make this person my manager
-                                    </button>
+
 
                                 </div>
                             ))}
