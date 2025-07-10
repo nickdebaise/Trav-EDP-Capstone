@@ -17,15 +17,11 @@ export default function Register() {
     const handleRegister = async (event) => {
         event.preventDefault();
 
-<<<<<<< HEAD
-        // Send the registration request
-=======
         if (!username || !password || !phoneNumber || !location || !salary || !jobTitle) {
             alert("Please fill out all fields");
             return;
         }
 
->>>>>>> 02277ce013c54b4cd3a886ca93b5e77cfe011959
         fetch(`${import.meta.env.VITE_API_URL}/register`, {
             method: "POST",
             body: JSON.stringify({
@@ -34,10 +30,7 @@ export default function Register() {
                 "location": location,
                 "salary": salary,
                 "password": password,
-<<<<<<< HEAD
-=======
                 "role": jobTitle
->>>>>>> 02277ce013c54b4cd3a886ca93b5e77cfe011959
             }),
             headers: {
                 "Content-Type": "application/json",
