@@ -35,9 +35,18 @@ const Employees = () => {
 
                 return response.json();
             })
+             // Check if res is an array before sorting, then its sorting everything alphabetically by first name // then if else if res is not an array , handle accordingly 
             .then(res => {
                 if (!res) return;
-                setEmployees(res);
+                if (Array.isArray(res)) {
+                    const sortedEmployees = res.sort((a, b) => {
+                        return a.name.localeCompare(b.name);
+                    });
+                    setEmployees(sortedEmployees);
+                } else {
+                    console.error("Expected array response but got:", res);
+                    setEmployees([]); 
+                }
             })
             .catch(err => {
                 alert(err.message);
@@ -148,7 +157,6 @@ const Employees = () => {
                                     onClick={() => HandleViewEmployeeDetails(employee._id)}>
                                         See more details
                                     </button>
-
                                 </div>
                             ))}
                         </div>
