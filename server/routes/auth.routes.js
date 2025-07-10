@@ -25,7 +25,7 @@ router.post('/register', (req, res) => {
             const employeeData = employee.toObject();
             delete employeeData.hash;
             delete employeeData.salt;
-            res.status(201).json({ message: "Registered and logged in successfully!", employee: employeeData });
+            res.status(201).json({ message: "Registered and logged in successfully!", user: employeeData });
         });
     });
 });
@@ -34,7 +34,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
     const employeeData = req.user.toObject();
     delete employeeData.hash;
     delete employeeData.salt;
-    res.status(200).json({ message: "Logged in successfully", employee: employeeData });
+    res.status(200).json({ message: "Logged in successfully", user: employeeData });
 });
 
 router.post('/logout', (req, res, next) => {

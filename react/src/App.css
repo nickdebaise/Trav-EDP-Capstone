@@ -1,20 +1,19 @@
-Navbar.css
-.header {
- position: fixed;
- width: 100%;
- top: 0;
- left: 0;
- background-color: rgb(51, 112, 226);
- z-index: var(--z-fixed);
+Navbar.css .header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgb(51, 112, 226);
+    z-index: var(--z-fixed);
 }
 
 .nav {
- display: flex;
- align-items: center;
- justify-content: space-between;
- position: relative;
- height: var(--header-height);
- margin: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    height: var(--header-height);
+    margin: 1rem;
 }
 
 .img-responsive {
@@ -25,50 +24,94 @@ Navbar.css
 }
 
 .nav__logo {
- color: var(--first-color);
- transition: color 0.4s;
- font-size: var(--h2-font-size);
- font-family: var(--second-font);
+    color: var(--first-color);
+    transition: color 0.4s;
+    font-size: var(--h2-font-size);
+    font-family: var(--second-font);
 }
 
 .nav__toggle,
 .nav__close {
- font-size: 1.5rem;
- color: var(--title-color);
- cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--title-color);
+    cursor: pointer;
 }
 
 .nav__cta {
- background-color: var(--first-color);
- color: var(--title-color);
- border: none;
- border-radius: 4px;
- cursor: pointer;
- transition: background-color 0.3s ease;
- padding: 0.75rem 1.5rem;
+    background-color: var(--first-color);
+    color: var(--title-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 0.75rem 1.5rem;
 }
+
 .nav__list {
- display: flex;
- flex-direction: column;
- row-gap: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.5rem;
 }
 
 .nav__link {
- color: var(--title-color);
- font-weight: var(--font-semi-bold);
- transition: color 0.4s;
+    color: var(--title-color);
+    font-weight: var(--font-semi-bold);
+    transition: color 0.4s;
 }
 
 .nav__link:hover {
- color: var(--first-color);
+    color: var(--first-color);
 }
 
 .nav__close {
- position: absolute;
- top: 1rem;
- right: 1.5rem;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
 }
 
 .show-menu {
- right: 0;
+    right: 0;
+}
+
+
+.table_component {
+    overflow: auto;
+    width: 100%;
+}
+
+.table_component table {
+    border: 1px solid #dededf;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 1px;
+    text-align: left;
+}
+
+.table_component caption {
+    caption-side: top;
+    text-align: left;
+}
+
+.table_component th {
+    border: 1px solid #dededf;
+    background-color: #eceff1;
+    color: #000000;
+    padding: 5px;
+}
+
+.table_component td {
+    border: 1px solid #dededf;
+    padding: 5px;
+}
+
+.table_component tr:nth-child(even) td {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.table_component tr:nth-child(odd) td {
+    background-color: #d9d8d8;
+    color: #000000;
 }
