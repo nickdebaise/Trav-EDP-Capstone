@@ -81,6 +81,10 @@ const Employees = () => {
                                     <p><strong>Location:</strong> {employee.location}</p>
                                     <p><strong>Salary:</strong> {employee?.salary ?? "Not Viewable"}</p>
                                     <p><strong>Manager:</strong> {employee.managerId?.['name'] ?? "None"}</p>
+                                    <button className="btn btn-primary">
+                                        Make this person my manager
+                                    </button>
+
                                 </div>
                             ))}
                         </div>
