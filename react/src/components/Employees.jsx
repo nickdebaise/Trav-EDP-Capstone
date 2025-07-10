@@ -1,21 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Employees.css'; // Import external CSS for styling
 
 const Employees = () => {
-
     const [name, setName] = useState("");
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false)
-
+    const [loading, setLoading] = useState(false);
     const [employees, setEmployees] = useState([]);
-
 
     useEffect(() => {
         fetchEmployees();
-    }, [])
+    }, []);
 
     const fetchEmployees = useCallback(() => {
-        setLoading(true)
+        setLoading(true);
         fetch(`${import.meta.env.VITE_API_URL}/employees/search`, {
             method: "POST",
             body: JSON.stringify({
@@ -24,84 +22,71 @@ const Employees = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-
             credentials: "include"
         })
             .then((response) => {
                 if (response.status === 401) {
-                    navigate("/")
+                    navigate("/");
                 }
 
-                return response.json()
+                return response.json();
             })
             .then(res => {
-                if (!res) return
-                setEmployees(res)
+                if (!res) return;
+                setEmployees(res);
             })
             .catch(err => {
-                alert(err.message)
+                alert(err.message);
             })
             .finally(() => {
-                setLoading(false)
-            })
-    }, [name, setLoading])
+                setLoading(false);
+            });
+    }, [name, setLoading]);
 
     return (
-        <div>
-            <div>
-                <input value={name} onChange={(e) => setName(e.target.value)} placeholder='Search name' />
-                <button role="button" type="button" onClick={fetchEmployees}>
+        <div className="employee-container">
+            <div className="search-bar">
+                <input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder='Search by name'
+                    className="search-input"
+                />
+                <button
+                    type="button"
+                    onClick={fetchEmployees}
+                    className="search-button"
+                >
                     Search
                 </button>
             </div>
-            {
-                loading ? (
-                    <div>
-                        <h2>Loading...</h2>
-                    </div>
-                ) : (
-                    <div>
-                        {(employees?.length ?? 0) === 0 ? (
-                            <div>
-                                <h2>No results</h2>
-                            </div>
-                        ) : (
 
-                            <div className="table_component" role="region">
-                                <table>
-                                    <caption>Results</caption>
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Phone</th>
-                                            <th>Role</th>
-                                            <th>Location</th>
-                                            <th>Salary</th>
-                                            <th>Manager?</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            employees.map(employee => {
-                                                return (
-                                                    <tr key={employee._id}>
-                                                        <td>{employee.name}</td>
-                                                        <td>{employee.phone}</td>
-                                                        <td>{employee.role}</td>
-                                                        <td>{employee.location}</td>
-                                                        <td>{employee?.salary ?? "Not Viewable"}</td>
-                                                        <td>{employee.managerId?.['name']}</td>
-                                                    </tr>
-                                                )
-                                            })
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
-                    </div>
-                )
-            }
+            {loading ? (
+                <div className="loading">
+                    <h2>Loading...</h2>
+                </div>
+            ) : (
+                <div>
+                    {(employees?.length ?? 0) === 0 ? (
+                        <div>
+                            <h2>No results found</h2>
+                        </div>
+                    ) : (
+                        <div className="employee-cards">
+                            {employees.map(employee => (
+                                <div key={employee._id} className="employee-card">
+                                    <h3>{employee.name}</h3>
+                                    <p><strong>Phone:</strong> {employee.phone}</p>
+                                    <p><strong>Role:</strong> {employee.role}</p>
+                                    <p><strong>Location:</strong> {employee.location}</p>
+                                    <p><strong>Salary:</strong> {employee?.salary ?? "Not Viewable"}</p>
+                                    <p><strong>Manager:</strong> {employee.managerId?.['name'] ?? "None"}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

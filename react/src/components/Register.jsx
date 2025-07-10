@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../useAuth';
 
 export default function Register() {
-
     const { login } = useAuth();
 
     const [username, setUsername] = useState('');
@@ -12,11 +11,12 @@ export default function Register() {
     const [location, setLocation] = useState('');
     const [salary, setSalary] = useState(0);
 
-
     const navigate = useNavigate();
 
     const handleRegister = async (event) => {
         event.preventDefault();
+
+        // Send the registration request
         fetch(`${import.meta.env.VITE_API_URL}/register`, {
             method: "POST",
             body: JSON.stringify({
@@ -24,7 +24,7 @@ export default function Register() {
                 "phone": phoneNumber,
                 "location": location,
                 "salary": salary,
-                "password": password
+                "password": password,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -32,23 +32,29 @@ export default function Register() {
         })
             .then((response) => response.json())
             .then((data) => {
-                // TODO: Handle the response data
-                if (data) {
+                if (data.error) {
+                    // If the server returns an error like 'User already registered'
+                    if (data.error === "User already registered") {
+                        alert("Error: User already registered!");
+                    } else {
+                        alert(data.error || "An unknown error occurred.");
+                    }
+                } else {
+                    // Success: User registered successfully
                     if (data.user) {
                         login(data.user);
                     }
 
-                    alert("Registered Successfully")
+                    alert("Registered Successfully");
                     navigate('/employees');
                 }
             })
             .catch((error) => {
-                // Handle any errors
+                // Handle any errors in the fetch call
                 console.error(error);
-                alert(error.message)
+                alert("Something went wrong, please try again later.");
             });
         console.log("Registration sent successfully");
-
     };
 
     return (
