@@ -42,12 +42,12 @@ const CoinFallBackground = () => {
     };
 
     // Create initial coins
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 4; i++) {
       createCoin();
     }
 
     // Continue creating coins at intervals
-    const coinInterval = setInterval(createCoin, 500);
+    const coinInterval = setInterval(createCoin, 1500);
 
     return () => {
       clearInterval(coinInterval);

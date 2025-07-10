@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './EmployeeDetail.css';
-import CoinFallBackground from './CoinFallBackground';
 
 const EmployeeCard = ({ employee, onNavigate, isCurrentUser = false }) => {
     if (!employee) {
@@ -12,7 +11,6 @@ const EmployeeCard = ({ employee, onNavigate, isCurrentUser = false }) => {
 
     return (
         <div className={cardClasses}>
-            <CoinFallBackground/>
             <h3>{employee.name}</h3>
             <p><strong>Role:</strong> {employee.role}</p>
             {!isCurrentUser && (

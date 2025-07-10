@@ -7,6 +7,9 @@ import CoinFallBackground from './CoinFallBackground';
 
 const Employees = () => {
     const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [location, setLocation] = useState("");
+    const [role, setRole] = useState("")
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [employees, setEmployees] = useState([]);
@@ -22,6 +25,9 @@ const Employees = () => {
             method: "POST",
             body: JSON.stringify({
                 "name": name,
+                "role": role,
+                "location": location,
+                "phone": phone
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -36,7 +42,7 @@ const Employees = () => {
 
                 return response.json();
             })
-             // Check if res is an array before sorting, then its sorting everything alphabetically by first name // then if else if res is not an array , handle accordingly 
+            // Check if res is an array before sorting, then its sorting everything alphabetically by first name // then if else if res is not an array , handle accordingly 
             .then(res => {
                 if (!res) return;
                 if (Array.isArray(res)) {
@@ -46,7 +52,7 @@ const Employees = () => {
                     setEmployees(sortedEmployees);
                 } else {
                     console.error("Expected array response but got:", res);
-                    setEmployees([]); 
+                    setEmployees([]);
                 }
             })
             .catch(err => {
@@ -55,7 +61,7 @@ const Employees = () => {
             .finally(() => {
                 setLoading(false);
             });
-    }, [name, setLoading]);
+    }, [name, role, phone, location, setLoading]);
 
     const HandleViewEmployeeDetails = (id) => {
         navigate(`/employee/${id}`);
@@ -118,6 +124,24 @@ const Employees = () => {
                     placeholder='Search by name'
                     className="search-input"
                 />
+                <input
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    placeholder='Search by role'
+                    className="search-input"
+                />
+                <input
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder='Search by location'
+                    className="search-input"
+                />
+                <input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder='Search by phone'
+                    className="search-input"
+                />
                 <button
                     type="button"
                     onClick={fetchEmployees}
@@ -155,7 +179,7 @@ const Employees = () => {
                                     <p><strong>Salary:</strong> {employee?.salary ?? "Not Viewable"}</p>
                                     <p><strong>Manager:</strong> {employee.managerId?.['name'] ?? "None"}</p>
                                     <button className="btn btn-primary"
-                                    onClick={() => HandleViewEmployeeDetails(employee._id)}>
+                                        onClick={() => HandleViewEmployeeDetails(employee._id)}>
                                         See more details
                                     </button>
                                     
