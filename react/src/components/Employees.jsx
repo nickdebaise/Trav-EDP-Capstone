@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Employees.css'; // Import external CSS for styling
 import { useAuth } from '../useAuth';
+import CoinFallBackground from './CoinFallBackground';
 
 const Employees = () => {
     const [name, setName] = useState("");
@@ -99,6 +100,7 @@ const Employees = () => {
 
     return (
         <div className="employee-container">
+            <CoinFallBackground />
             <div className="search-bar">
                 <input
                     value={name}

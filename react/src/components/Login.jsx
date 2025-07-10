@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../useAuth';
+import CoinFallBackground from './CoinFallBackground';
 
 export default function LoginForm() {
     const { login } = useAuth();
@@ -38,9 +39,10 @@ export default function LoginForm() {
     };
 
     return (
+        
         <div className="container py-5">
+            <CoinFallBackground />
             <div className="row justify-content-center"  >
-
                 <div className="col-md-6">
                     <div className="card shadow">
                         <div className="card-header bg-primary text-white">

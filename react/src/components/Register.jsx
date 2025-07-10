@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../useAuth';
+import CoinFallBackground from './CoinFallBackground';
 
 export default function Register() {
     const { login } = useAuth();
@@ -65,6 +66,7 @@ export default function Register() {
 
     return (
         <div className="container d-flex align-items-center justify-content-center" style={{ minHeight: "85vh" }}>
+            <CoinFallBackground />
             <div className="row w-100 justify-content-center">
                 <div className="col-md-8 col-lg-6">
                     <div className="card shadow">
