@@ -24,7 +24,7 @@ export default function TravNavbar() {
             style={{ maxHeight: '100px', maxWidth: '100%' }}
             navbarScroll
           >
-            <Nav.Link as={Link} to="/employees">Search Employees</Nav.Link>
+            <Nav.Link as={Link} to="/employees"  className="btn btn-outline-primary">Search Employees</Nav.Link>
           </Nav>
 
           <Nav className="ms-auto">

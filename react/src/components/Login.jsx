@@ -35,40 +35,55 @@ export default function LoginForm() {
                 console.error(error);
             });
         console.log("Login sent successfully");
-
     };
 
     return (
-        <div className="container">
-            <form onSubmit={handleLogin} className="mt-5">
-                <div className="form-group">
-                    <label htmlFor="username">Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="username"
-                        placeholder="Enter Full Name"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+        <div className="container py-5">
+            <div className="row justify-content-center"  >
+
+                <div className="col-md-6">
+                    <div className="card shadow">
+                        <div className="card-header bg-primary text-white">
+                            <h3 className="mb-0">Login</h3>
+                        </div>
+                        <div className="card-body">
+                            <form onSubmit={handleLogin}>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="username" className="form-label">Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="username"
+                                        placeholder="Enter Full Name"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="password" className="form-label">Password</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="password"
+                                        placeholder="Password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <button type="submit" className="btn btn-primary w-100">Login</button>
+                            </form>
+                            <div className="mt-3 text-center">
+                                <span>
+                                    Don't have an account?&nbsp;
+                                    <Link to="/register" className="text-primary">Register!</Link>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">Login</button>
-            </form>
-            <span>
-                Don't have an account?&nbsp;
-                <Link to="/register">Register!</Link>
-            </span>
+            </div>
         </div>
     );
 }

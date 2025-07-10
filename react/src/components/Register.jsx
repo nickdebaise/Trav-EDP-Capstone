@@ -64,80 +64,99 @@ export default function Register() {
     };
 
     return (
-        <div className="container">
-            <form onSubmit={handleRegister} className="mt-5">
-                <div className="form-group">
-                    <label htmlFor="username">Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="username"
-                        placeholder="Enter Full Name"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+        <div className="container d-flex align-items-center justify-content-center" style={{ minHeight: "85vh" }}>
+            <div className="row w-100 justify-content-center">
+                <div className="col-md-8 col-lg-6">
+                    <div className="card shadow">
+                        <div className="card-header bg-primary text-white text-center">
+                            <h3 className="mb-0">Register</h3>
+                        </div>
+                        <div className="card-body">
+                            <form onSubmit={handleRegister}>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="username" className="form-label">Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="username"
+                                        placeholder="Enter Full Name"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="password" className="form-label">Password</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="password"
+                                        placeholder="Password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="phoneNumber"
+                                        placeholder="Enter Phone Number"
+                                        value={phoneNumber}
+                                        onChange={(e) => setPhoneNumber(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="location" className="form-label">Work Location</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="location"
+                                        placeholder="Enter Location"
+                                        value={location}
+                                        onChange={(e) => setLocation(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="job_title" className="form-label">Job Title</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="job_title"
+                                        placeholder="Enter Job Title"
+                                        value={jobTitle}
+                                        onChange={(e) => setJobTitle(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="salary" className="form-label">Salary</label>
+                                    <input
+                                        type="number"
+                                        className="form-control"
+                                        id="salary"
+                                        placeholder="Enter Salary"
+                                        value={salary}
+                                        onChange={(e) => setSalary(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <button type="submit" className="btn btn-primary w-100">Register</button>
+                            </form>
+                            <div className="mt-3 text-center">
+                                <span>
+                                    Already have an account?&nbsp;
+                                    <Link to="/"className="text-primary">Log in!</Link>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="phoneNumber">Phone Number</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="phoneNumber"
-                        placeholder="Enter Phone Number"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="location">Work Location</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="location"
-                        placeholder="Enter Location"
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="job_title">Job Title</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="job_title"
-                        placeholder="Enter Job Title"
-                        value={jobTitle}
-                        onChange={(e) => setJobTitle(e.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="salary">Salary</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="salary"
-                        placeholder="Enter Salary"
-                        value={salary}
-                        onChange={(e) => setSalary(e.target.value)}
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">Register</button>
-            </form>
-            <span>
-                Already have an account?&nbsp;
-                <Link to="/login">Log in!</Link>
-            </span>
+            </div>
         </div>
     );
 }

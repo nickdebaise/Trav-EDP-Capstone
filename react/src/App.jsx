@@ -5,6 +5,7 @@ import Employees from './components/Employees';
 import Register from './components/Register'
 import Navbar from './components/Navbar';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import EmployeeDetail from './components/EmployeeDetail.jsx';
 
 import {
   BrowserRouter as Router,
@@ -28,9 +29,15 @@ export default function App() {
           <Route path="/employees" element={
             <Employees />
           } />
+          <Route path="/employee/:id" element={
+            <EmployeeDetail />
+          } />
           <Route path="/register" element={
             <Register />
           } />
+
+          
+
         </Routes>
       </AuthProvider>
 

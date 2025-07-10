@@ -43,6 +43,10 @@ const Employees = () => {
             });
     }, [name, setLoading]);
 
+    const HandleViewEmployeeDetails = (id) => {
+        navigate(`/employee/${id}`);
+    };
+
     return (
         <div className="employee-container">
             <div className="search-bar">
@@ -81,8 +85,9 @@ const Employees = () => {
                                     <p><strong>Location:</strong> {employee.location}</p>
                                     <p><strong>Salary:</strong> {employee?.salary ?? "Not Viewable"}</p>
                                     <p><strong>Manager:</strong> {employee.managerId?.['name'] ?? "None"}</p>
-                                    <button className="btn btn-primary">
-                                        Make this person my manager
+                                    <button className="btn btn-primary"
+                                    onClick={() => HandleViewEmployeeDetails(employee._id)}>
+                                        See more details
                                     </button>
 
                                 </div>
