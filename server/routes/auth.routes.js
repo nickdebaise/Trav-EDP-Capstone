@@ -5,14 +5,14 @@ const Employee = require("../models/employee");
 const router = express.Router();
 
 router.post('/register', (req, res) => {
-    const { name, password, salary, phone, location } = req.body;
+    const { name, password, salary, phone, role, location } = req.body;
 
     const newEmployee = new Employee({
         name,
         phone,
         location,
         salary,
-        role: 'Employee'
+        role
     });
 
     Employee.register(newEmployee, password, (err, employee) => {

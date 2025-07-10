@@ -11,12 +11,19 @@ export default function Register() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [location, setLocation] = useState('');
     const [salary, setSalary] = useState(0);
+    const [jobTitle, setJobTitle] = useState("")
 
 
     const navigate = useNavigate();
 
     const handleRegister = async (event) => {
         event.preventDefault();
+
+        if (!username || !password || !phoneNumber || !location || !salary || !jobTitle) {
+            alert("Please fill out all fields");
+            return;
+        }
+
         fetch(`${import.meta.env.VITE_API_URL}/register`, {
             method: "POST",
             body: JSON.stringify({
@@ -24,7 +31,8 @@ export default function Register() {
                 "phone": phoneNumber,
                 "location": location,
                 "salary": salary,
-                "password": password
+                "password": password,
+                "role": jobTitle
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -96,6 +104,17 @@ export default function Register() {
                         placeholder="Enter Location"
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="job_title">Job Title</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="job_title"
+                        placeholder="Enter Job Title"
+                        value={jobTitle}
+                        onChange={(e) => setJobTitle(e.target.value)}
                     />
                 </div>
                 <div className="form-group">
