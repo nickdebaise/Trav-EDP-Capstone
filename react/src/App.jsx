@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import EmployeeDetail from './components/EmployeeDetail.jsx';
 import Prediction from './components/Prediction.jsx';
+import Profile from './components/Profile.jsx';
 
 import {
   BrowserRouter as Router,
@@ -39,6 +40,9 @@ export default function App() {
           } />
           <Route path="/prediction" element={
             <Prediction />
+          } />
+          <Route path="/profile" element={
+            <Profile />
           } />
 
 

@@ -24,6 +24,8 @@ export default function TravNavbar() {
           >
             <Nav.Link as={Link} to="/employees" className="btn btn-outline-primary">Employees</Nav.Link>
             <Nav.Link as={Link} to="/prediction" className="btn btn-outline-primary">Predict Salary</Nav.Link>
+            <Nav.Link as={Link} to="/profile" className="btn btn-outline-primary">Profile</Nav.Link>
+
 
           </Nav>
 
