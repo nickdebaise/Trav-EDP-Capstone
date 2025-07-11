@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+/*import React, { useEffect } from 'react';
 import './CoinFallBackground.css';
 
 const CoinFallBackground = () => {
@@ -71,9 +71,10 @@ const CoinFallBackground = () => {
 };
 
 export default CoinFallBackground;
+*/
 
 
-/* if you want more umbrellas to show switch it out for this below
+// if you want more umbrellas to show switch it out for this below
 
 import React, { useEffect } from 'react';
 import './CoinFallBackground.css';
@@ -162,4 +163,3 @@ const CoinFallBackground = () => {
 
 export default CoinFallBackground;
 
-*/

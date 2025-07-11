@@ -177,11 +177,6 @@ const Employees = () => {
                                     <div key={employee._id} className="employee-card">
                                         <div>
                                             <h3>{employee.name}</h3>
-                                            <button className="btn btn-primary" onClick={() => makeManager(employee._id)}
-                                                disabled={
-                                                    employee._id === user._id
-                                                    || (!!user.managerId && employee._id === user.managerId)
-                                                }>Make Manager</button>
                                         </div>
                                         <p><strong>Phone:</strong> {employee.phone}</p>
                                         <p><strong>Role:</strong> {employee.role}</p>
@@ -189,9 +184,16 @@ const Employees = () => {
                                         <p><strong>Salary:</strong> {employee?.salary ?? "Not Viewable"}</p>
                                         <p><strong>Manager:</strong> {employee.managerId?.['name'] ?? "None"}</p>
                                         <button className="btn btn-primary"
+                                            style={{ marginRight: '8px' }}
                                             onClick={() => HandleViewEmployeeDetails(employee._id)}>
                                             See more details
                                         </button>
+                                        <button className="btn btn-primary" onClick={() => makeManager(employee._id)}
+                                            disabled={
+                                                employee._id === user._id
+                                                || (!!user.managerId && employee._id === user.managerId)
+                                            }>Make Manager</button>
+
 
                                     </div>
                                 ))}
