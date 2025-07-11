@@ -117,7 +117,7 @@ const Employees = () => {
     return (
         <div className="employee-container">
             <CoinFallBackground />
-            <div className="search-bar">
+            <form className="search-bar">
                 <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -143,13 +143,16 @@ const Employees = () => {
                     className="search-input"
                 />
                 <button
-                    type="button"
-                    onClick={fetchEmployees}
+                    type="submit"
+                    onClick={e => {
+                        e.preventDefault();
+                        fetchEmployees();
+                    }}
                     className="search-button"
                 >
                     Search
                 </button>
-            </div>
+            </form>
 
             {loading ? (
                 <div className="loading">
@@ -162,29 +165,37 @@ const Employees = () => {
                             <h2>No results found</h2>
                         </div>
                     ) : (
-                        <div className="employee-cards">
-                            {employees.map(employee => (
-                                <div key={employee._id} className="employee-card">
-                                    <div>
-                                        <h3>{employee.name}</h3>
-                                        <button className="btn btn-primary" onClick={() => makeManager(employee._id)}
-                                            disabled={
-                                                employee._id === user._id
-                                                || (!!user.managerId && employee._id === user.managerId)
-                                            }>Make Manager</button>
+                        <div>
+                            <div style={{
+                                marginBottom: "8px"
+                            }}>
+                                {employees.length} Employees Found
+                            </div>
+                            <div className="employee-cards">
+
+                                {employees.map(employee => (
+                                    <div key={employee._id} className="employee-card">
+                                        <div>
+                                            <h3>{employee.name}</h3>
+                                            <button className="btn btn-primary" onClick={() => makeManager(employee._id)}
+                                                disabled={
+                                                    employee._id === user._id
+                                                    || (!!user.managerId && employee._id === user.managerId)
+                                                }>Make Manager</button>
+                                        </div>
+                                        <p><strong>Phone:</strong> {employee.phone}</p>
+                                        <p><strong>Role:</strong> {employee.role}</p>
+                                        <p><strong>Location:</strong> {employee.location}</p>
+                                        <p><strong>Salary:</strong> {employee?.salary ?? "Not Viewable"}</p>
+                                        <p><strong>Manager:</strong> {employee.managerId?.['name'] ?? "None"}</p>
+                                        <button className="btn btn-primary"
+                                            onClick={() => HandleViewEmployeeDetails(employee._id)}>
+                                            See more details
+                                        </button>
+
                                     </div>
-                                    <p><strong>Phone:</strong> {employee.phone}</p>
-                                    <p><strong>Role:</strong> {employee.role}</p>
-                                    <p><strong>Location:</strong> {employee.location}</p>
-                                    <p><strong>Salary:</strong> {employee?.salary ?? "Not Viewable"}</p>
-                                    <p><strong>Manager:</strong> {employee.managerId?.['name'] ?? "None"}</p>
-                                    <button className="btn btn-primary"
-                                        onClick={() => HandleViewEmployeeDetails(employee._id)}>
-                                        See more details
-                                    </button>
-                                    
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     )}
                 </div>
