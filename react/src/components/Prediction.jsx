@@ -7,11 +7,45 @@ import './LittleMan.css';
 const ROLES = ["Software Engineer", "Data Scientist", "Project Manager", "UX Designer", "EDP"]
 const LOCATIONS = ['New York', 'Hartford', "Saint Paul"]
 
+// New component for the walking character
+const WalkingCharacter = ({ salary }) => {
+  return (
+    <div className="walking-character">
+      <div className="salary-sign">
+        ${typeof salary === 'number' ? salary.toLocaleString() : salary}
+      </div>
+      <div className="little-man">
+        {/* Face */}
+        <div className="face">
+          <div className="eyes">
+            <div className="eye left"></div>
+            <div className="eye right"></div>
+          </div>
+          <div className="mouth"></div>
+        </div>
+        {/* Body */}
+        <div className="body"></div>
+        {/* Arms */}
+        <div className="arms">
+          <div className="arm left"></div>
+          <div className="arm right"></div>
+        </div>
+      </div>
+      {/* Legs */}
+      <div className="legs">
+        <div className="leg left"></div>
+        <div className="leg right"></div>
+      </div>
+    </div>
+  );
+};
+
 export default function Prediction() {
     const [predictedSalary, setPredictedSalary] = useState("");
     const [jobRole, setJobRole] = useState("");
     const [location, setLocation] = useState("");
     const [isShocked, setIsShocked] = useState(false);
+    const [showWalkingCharacter, setShowWalkingCharacter] = useState(false);
 
     // Reset shock state when inputs change
     useEffect(() => {
@@ -19,6 +53,17 @@ export default function Prediction() {
             setIsShocked(false);
         }
     }, [predictedSalary]);
+
+    // Handle walking character animation end
+    useEffect(() => {
+        if (showWalkingCharacter) {
+            const timer = setTimeout(() => {
+                setShowWalkingCharacter(false);
+            }, 6000); // Match the animation duration
+            
+            return () => clearTimeout(timer);
+        }
+    }, [showWalkingCharacter]);
 
     const predictSalary = (e) => {
         e.preventDefault();
@@ -42,27 +87,33 @@ export default function Prediction() {
             .then((data) => {
                 console.log("API Response:", data);
 
+                let salary;
                 if (data && typeof data === 'object') {
                     if (data.salary !== undefined) {
-                        setPredictedSalary(data.salary);
+                        salary = data.salary;
                     } else if (data.predicted_salary !== undefined) {
-                        setPredictedSalary(data.predicted_salary);
+                        salary = data.predicted_salary;
                     } else if (data.prediction !== undefined) {
-                        setPredictedSalary(data.prediction);
+                        salary = data.prediction;
                     } else {
                         const firstValue = Object.values(data).find(val =>
                             typeof val === 'number' || !isNaN(parseFloat(val))
                         );
                         if (firstValue !== undefined) {
-                            setPredictedSalary(firstValue);
+                            salary = firstValue;
                         }
                     }
                 } else if (typeof data === 'number' || !isNaN(parseFloat(data))) {
-                    setPredictedSalary(data);
+                    salary = data;
                 }
+                
+                setPredictedSalary(salary);
                 
                 // Trigger the shocked animation
                 setIsShocked(true);
+                
+                // Show the walking character
+                setShowWalkingCharacter(true);
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -70,7 +121,7 @@ export default function Prediction() {
     }
 
     return (
-        <div className="container py-5">
+        <div className="container py-5 position-relative">
             <CoinFallBackground />
             <div className="row justify-content-center">
                 <div className="col-md-6">
@@ -158,9 +209,15 @@ export default function Prediction() {
                     </div>
                 </div>
             </div>
+            
+            {/* Walking character with salary - now outside the card */}
+            {showWalkingCharacter && predictedSalary && (
+                <WalkingCharacter salary={predictedSalary} />
+            )}
         </div>
     );
 }
+
 
 
 

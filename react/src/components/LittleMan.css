@@ -141,6 +141,75 @@
   font-size: 12px;
 }
 
+/* Walking character styles */
+.walking-character {
+  position: absolute;
+  left: -100px; /* Start off-screen */
+  bottom: -50px; /* Position below the prediction container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: walk-across 6s linear forwards;
+  z-index: 10;
+}
+
+.walking-character .little-man {
+  animation: walking-bounce 0.5s infinite alternate;
+}
+
+.walking-character .legs {
+  display: flex;
+  justify-content: space-between;
+  width: 30px;
+}
+
+.walking-character .leg {
+  width: 8px;
+  height: 25px;
+  background-color: #ffdbac;
+  position: relative;
+}
+
+.walking-character .leg.left {
+  animation: leg-swing-left 0.5s infinite alternate;
+}
+
+.walking-character .leg.right {
+  animation: leg-swing-right 0.5s infinite alternate;
+}
+
+.walking-character .salary-sign {
+  background-color: white;
+  border: 2px solid #333;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+@keyframes walk-across {
+  0% { left: -100px; }
+  100% { left: calc(100% + 100px); }
+}
+
+@keyframes walking-bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+@keyframes leg-swing-left {
+  0% { transform: rotate(-15deg); }
+  100% { transform: rotate(15deg); }
+}
+
+@keyframes leg-swing-right {
+  0% { transform: rotate(15deg); }
+  100% { transform: rotate(-15deg); }
+}
+
+
 @keyframes jump {
   0% { transform: translateY(0); }
   50% { transform: translateY(-20px); }
