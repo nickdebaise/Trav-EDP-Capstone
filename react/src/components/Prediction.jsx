@@ -1,15 +1,24 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import CoinFallBackground from './CoinFallBackground'; // Assuming you have this component
 
-export default function Prediction(props){
+const ROLES = ["Software Engineer", "Data Scientist", "Project Manager", "UX Designer", "EDP"]
+const LOCATIONS = ['New York', 'Hartford', "Saint Paul"]
+
+export default function Prediction() {
     const [predictedSalary, setPredictedSalary] = useState("");
-    const [jobRole, setJobRole] = useState(props.job_role || "");
-    const [location, setLocation] = useState(props.location || "");
-    
+    const [jobRole, setJobRole] = useState("");
+    const [location, setLocation] = useState("");
+
     const predictSalary = (e) => {
         e.preventDefault();
+
+        if (!jobRole || !location) {
+            alert("Please select both a homeworld and unit type");
+            return;
+        }
+
         fetch(`${import.meta.env.VITE_API_PREDICTION_URL}/predict`, {
             method: "POST",
             body: JSON.stringify({
@@ -20,35 +29,35 @@ export default function Prediction(props){
                 "Content-Type": "application/json",
             },
         })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("API Response:", data);
-            
-            if (data && typeof data === 'object') {
-                if (data.salary !== undefined) {
-                    setPredictedSalary(data.salary);
-                } else if (data.predicted_salary !== undefined) {
-                    setPredictedSalary(data.predicted_salary);
-                } else if (data.prediction !== undefined) {
-                    setPredictedSalary(data.prediction);
-                } else {
-                    const firstValue = Object.values(data).find(val => 
-                        typeof val === 'number' || !isNaN(parseFloat(val))
-                    );
-                    if (firstValue !== undefined) {
-                        setPredictedSalary(firstValue);
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("API Response:", data);
+
+                if (data && typeof data === 'object') {
+                    if (data.salary !== undefined) {
+                        setPredictedSalary(data.salary);
+                    } else if (data.predicted_salary !== undefined) {
+                        setPredictedSalary(data.predicted_salary);
+                    } else if (data.prediction !== undefined) {
+                        setPredictedSalary(data.prediction);
+                    } else {
+                        const firstValue = Object.values(data).find(val =>
+                            typeof val === 'number' || !isNaN(parseFloat(val))
+                        );
+                        if (firstValue !== undefined) {
+                            setPredictedSalary(firstValue);
+                        }
                     }
+                } else if (typeof data === 'number' || !isNaN(parseFloat(data))) {
+                    setPredictedSalary(data);
                 }
-            } else if (typeof data === 'number' || !isNaN(parseFloat(data))) {
-                setPredictedSalary(data);
-            }
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
     }
-    
-    return(
+
+    return (
         <div className="container py-5">
             <CoinFallBackground />
             <div className="row justify-content-center">
@@ -61,31 +70,37 @@ export default function Prediction(props){
                             <Form onSubmit={predictSalary}>
                                 <div className="form-group mb-3">
                                     <label htmlFor="jobRole" className="form-label">Job Role</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="jobRole"
-                                        placeholder="Enter Job Role"
-                                        value={jobRole}
-                                        onChange={(e) => setJobRole(e.target.value)}
-                                        required
-                                    />
+                                    <select className="form-control"
+                                        id="jobRole" onChange={e => {
+                                            setJobRole(e.target.value);
+                                            setPredictedSalary("");
+                                        }} value={jobRole}>
+                                        <option value={""} disabled>-- Select Role --</option>
+                                        {
+                                            ROLES.map(role => (
+                                                <option key={role} value={role}>{role}</option>
+                                            ))
+                                        }
+                                    </select>
                                 </div>
-                                
+
                                 <div className="form-group mb-3">
                                     <label htmlFor="location" className="form-label">Location</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="location"
-                                        placeholder="Enter Location"
-                                        value={location}
-                                        onChange={(e) => setLocation(e.target.value)}
-                                        required
-                                    />
+                                    <select className="form-control"
+                                        id="location" onChange={e => {
+                                            setLocation(e.target.value);
+                                            setPredictedSalary("");
+                                        }} value={location}>
+                                        <option value={""} disabled>-- Select Location --</option>
+                                        {
+                                            LOCATIONS.map(location => (
+                                                <option key={location} value={location}>{location}</option>
+                                            ))
+                                        }
+                                    </select>
                                 </div>
-                                
-                                <Button 
+
+                                <Button
                                     type="submit"
                                     className="btn btn-primary w-100"
                                     disabled={!jobRole || !location}
@@ -93,10 +108,10 @@ export default function Prediction(props){
                                     Predict Salary
                                 </Button>
                             </Form>
-                            
-                            {predictedSalary !== "" && predictedSalary !== undefined && 
+
+                            {predictedSalary !== "" && predictedSalary !== undefined &&
                                 <div className="alert alert-success mt-4 text-center">
-                                    <h4 className="mb-0">Predicted Salary: ${typeof predictedSalary === 'number' ? 
+                                    <h4 className="mb-0">Predicted Salary: ${typeof predictedSalary === 'number' ?
                                         predictedSalary.toLocaleString() : predictedSalary}</h4>
                                 </div>
                             }
