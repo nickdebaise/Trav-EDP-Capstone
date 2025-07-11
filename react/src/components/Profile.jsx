@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../useAuth';
 import defaultProfileImage from '../assets/Travelers-Emblem.jpg';
 import './ProfilePicture.css'; // Import the CSS file
+import CoinFallBackground from './CoinFallBackground';
 
 export default function Profile() {
   const { user, login } = useAuth();
@@ -95,6 +96,7 @@ export default function Profile() {
   if (!user) {
     return (
       <div className="container py-5">
+        <CoinFallBackground/>
         <div className="row justify-content-center">
           <div className="col-md-8">
             <div className="card shadow">
@@ -110,6 +112,7 @@ export default function Profile() {
 
   return (
     <div className="container py-5">
+        <CoinFallBackground/>
       <div className="row justify-content-center">
         <div className="col-md-8">
           {/* Profile picture positioned above the card */}
