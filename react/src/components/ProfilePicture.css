@@ -9,11 +9,11 @@
   height: 150px;
   border-radius: 50%;
   overflow: hidden;
-  border: 5px solid white;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border: 5px solid rgb(89, 78, 180);
+  box-shadow: 0 4px 8px rgba(127, 146, 231, 0.1);
   position: relative;
   z-index: 2;
-  background-color: #f8f9fa;
+  background-color: #5c9bda;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,4 +51,14 @@
 
 .hidden-input {
   display: none;
+}
+
+
+.card.shadow {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card.shadow:hover {
+  transform: translateY(-23px);
+  box-shadow: 0 100px 130px rgba(56, 97, 230, 0.4); /* Deeper blue-tinted shadow on hover */
 }
